@@ -26,10 +26,10 @@ if( $_POST["name"] ){
     $data = $matches[2];
     $data = str_replace(' ','+',$data);
     $data = base64_decode($data);
-    
+    //lokasi gambar foto akan disimpan.
     file_put_contents($thumbs_dir.$file, $data);
     
-    print 'done '.$thumbs_dir.$file;
+    echo $thumbs_dir.$file;
     exit;
 }
 
