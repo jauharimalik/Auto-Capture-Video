@@ -35,7 +35,7 @@ if( $_POST["name"] ){
 
 ?>
 
-<video id="video" src="<?php echo $videos[0];?>"  onerror="failed(event)" controls="controls" preload="none"></video>
+<video id="video" src="<?php echo $videos[0];?>"  onerror="gagal(event)" controls="controls" preload="none"></video>
 
 <script>
 var videos = <?=json_encode($videos);?>;
@@ -52,13 +52,7 @@ video.addEventListener('canplay', function() {
 function nextVideo(){
     if(videos[index]){
         video.src = '/'+videos[index];
-        console.log(index);
-        console.log('loading: '+video.src);
-        video.load();
-		anux = 0;
-        index++;
-    }else{
-        console.log('done');
+        video.load();anux = 0;index++;
     }
 };
 
@@ -78,13 +72,9 @@ function getThumb(){
 		var xmlhttp = new XMLHttpRequest;
 		
 		xmlhttp.onreadystatechange = function(){
-			if (xmlhttp.readyState==4 && xmlhttp.status==200){
-				console.log('saved');
-				nextVideo();
-			}
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){nextVideo();}
 		};
 		
-		console.log('saving');
 		xmlhttp.open("POST", location.href, true);
 		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		xmlhttp.send('name='+encodeURIComponent(filename)+'&data='+data);
@@ -92,25 +82,8 @@ function getThumb(){
 	anux++;
 };
 
-function failed(e) {
-    switch (e.target.error.code) {
-        case e.target.error.MEDIA_ERR_ABORTED:
-            console.log('You aborted the video playback.');
-        break;
-        case e.target.error.MEDIA_ERR_NETWORK:
-            console.log('A network error caused the video download to fail part-way.');
-        break;
-        case e.target.error.MEDIA_ERR_DECODE:
-            console.log('The video playback was aborted due to a corruption problem or because the video used features your browser did not support.');
-        break;
-        case e.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            console.log('The video could not be loaded, either because the server or network failed or because the format is not supported.');
-        break;
-        default:
-            console.log('An unknown error occurred.');
-        break;
-    };
-    
+function gagal(e) {
+    console.log(e.target.error.code);
     nextVideo();
 };
 
